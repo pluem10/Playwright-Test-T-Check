@@ -1,0 +1,14 @@
+{
+  "name": "playwright-test-t-check",
+  "version": "1.0.0",
+  "description": "TestFN",
+  "license": "ISC",
+  "author": "Nitiphon",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {},
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "@types/node": "^25.9.3"
+  }
+}
