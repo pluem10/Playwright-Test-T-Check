@@ -112,6 +112,7 @@ test('Register Test Failed - ข้อมูลมีในระบบเเล
   await page.getByRole('textbox', { name: 'รหัสผ่าน', exact: true }).fill('Nitiphon');
   await page.getByRole('button', { name: 'สมัครสมาชิก' }).click();
   await expect(page.locator('#swal2-html-container')).toContainText('ข้อมูลนี้มีอยู่ในระบบแล้ว (เช่น อีเมลหรือชื่อเข้าใช้) กรุณาใช้ข้อมูลอื่น');
+  await page.waitForTimeout(2000);
 });
 
 test('Register Test Failed - เปิดปิด การมองเห็นรหัสผ่าน', async ({ page }) => {

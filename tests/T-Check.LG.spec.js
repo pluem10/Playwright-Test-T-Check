@@ -13,7 +13,7 @@ test('Login Test success', async ({ page }) => {
   await page.waitForTimeout(3000);
 });
 
-test('Login Test Failed', async ({ page }) => {
+test('Login Test Failed - กรอกรหัสผ่านผิด', async ({ page }) => {
   await page.goto('https://t-check-two.vercel.app/');
   await page.getByRole('link', { name: 'ลงชื่อเข้าใช้' }).click();
   await page.getByRole('textbox', { name: 'ชื่อผู้ใช้ หรือ อีเมล' }).click();
@@ -45,6 +45,48 @@ test('Login Test Failed', async ({ page }) => {
 //   await expect(page.locator('#swal2-title')).toContainText('สมัครสมาชิกสำเร็จ');
 // });
 
+test("LG-003 Login Test Failed - กรอกชื่อผู้ใช้และรหัสผ่านที่ไม่มีในระบบ", async ({
+  page,
+}) => {
+  await page.goto("https://t-check-two.vercel.app/");
+  await page.getByRole("link", { name: "ลงชื่อเข้าใช้" }).click();
+  await page.getByRole("textbox", { name: "ชื่อผู้ใช้ หรือ อีเมล" }).click();
+  await page
+    .getByRole("textbox", { name: "ชื่อผู้ใช้ หรือ อีเมล" })
+    .fill("sasatauy00");
+  await page.getByRole("textbox", { name: "ชื่อผู้ใช้ หรือ อีเมล" }).click();
+  await page.getByRole("textbox", { name: "รหัสผ่าน" }).click();
+  await page.getByRole("button", { name: "Show password" }).click();
+  await page.getByRole("textbox", { name: "รหัสผ่าน" }).click();
+  await page.getByRole("textbox", { name: "รหัสผ่าน" }).fill("sasatauy00");
+  await page.getByRole("button", { name: "เข้าสู่ระบบ" }).click();
+  await expect(page.locator("#swal2-html-container")).toContainText(
+    "รูปแบบอีเมลไม่ถูกต้อง กรุณาตรวจสอบอีกครั้ง",
+  );
+  await page.waitForTimeout(3000);
+});
+
+
+test("LG-004 Login Test Failed - ปล่อยให้ช่องว่าง", async ({ page }) => {
+  await page.goto("https://t-check-two.vercel.app/");
+  await page.getByRole("link", { name: "ลงชื่อเข้าใช้" }).click();
+  await page.getByRole("textbox", { name: "ชื่อผู้ใช้ หรือ อีเมล" }).click();
+  await page.getByRole("textbox", { name: "รหัสผ่าน" }).click();
+  await page.getByRole("button", { name: "เข้าสู่ระบบ" }).click();
+  await expect(page.locator("form")).toContainText("กรุณากรอกข้อมูลให้ครบถ้วน");
+  await expect(page.locator("form")).toContainText("กรุณากรอกข้อมูลให้ครบถ้วน");
+  await page.waitForTimeout(3000);
+});
+
+
+test("LG-005 Login Test  - ตรวจสอบลิงก์ สมัครสมาชิกในหน้าล็อกอิน", async ({
+  page,
+}) => {
+  await page.goto("https://t-check-two.vercel.app/");
+  await page.getByRole("link", { name: "ลงชื่อเข้าใช้" }).click();
+  await expect(page.getByRole("main")).toContainText("สมัครสมาชิก");
+  await page.waitForTimeout(3000);
+});
 
 
 
