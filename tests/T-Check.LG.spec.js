@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('Login Test success', async ({ page }) => {
+test('LG-001-Login Test success', async ({ page }) => {
   await page.goto('https://t-check-two.vercel.app/');
   await page.getByRole('link', { name: 'ลงชื่อเข้าใช้' }).click();
   await page.getByRole('textbox', { name: 'ชื่อผู้ใช้ หรือ อีเมล' }).click();
@@ -13,7 +13,7 @@ test('Login Test success', async ({ page }) => {
   await page.waitForTimeout(3000);
 });
 
-test('Login Test Failed - กรอกรหัสผ่านผิด', async ({ page }) => {
+test('LG-002-Login Test Failed - กรอกรหัสผ่านผิด', async ({ page }) => {
   await page.goto('https://t-check-two.vercel.app/');
   await page.getByRole('link', { name: 'ลงชื่อเข้าใช้' }).click();
   await page.getByRole('textbox', { name: 'ชื่อผู้ใช้ หรือ อีเมล' }).click();
@@ -27,23 +27,6 @@ test('Login Test Failed - กรอกรหัสผ่านผิด', async 
 });
 
 
-// test('Login Test By Google', async ({ page }) => {
-// await page.goto('https://t-check-two.vercel.app/');
-//   await page.getByRole('link', { name: 'ลงทะเบียน' }).click();
-//   const page1Promise = page.waitForEvent('popup');
-//   await page.locator('iframe[title="ปุ่มลงชื่อเข้าใช้ด้วย Google"]').contentFrame().getByRole('button', { name: 'ลงชื่อสมัครใช้ด้วย Google' }).click();
-//   const page1 = await page1Promise;
-//   await page1.getByRole('textbox', { name: 'Email or phone' }).click();
-//   await page1.getByRole('textbox', { name: 'Email or phone' }).fill('664259010@webmail.npru.ac.th');
-//   await page1.getByRole('button', { name: 'Next' }).click();
-//   await page1.getByRole('textbox', { name: 'Enter your password' }).click();
-//   await page1.getByRole('textbox', { name: 'Enter your password' }).fill('0625761035.QWas');
-// //   await page1.getByRole('button', { name: 'Next' }).click();
-// //   await page1.getByRole('button', { name: 'ดำเนินการต่อ' }).click();
-// await page1.waitForTimeout(3000);
-//   await page.goto('https://t-check-two.vercel.app/');
-//   await expect(page.locator('#swal2-title')).toContainText('สมัครสมาชิกสำเร็จ');
-// });
 
 test("LG-003 Login Test Failed - กรอกชื่อผู้ใช้และรหัสผ่านที่ไม่มีในระบบ", async ({
   page,
@@ -78,8 +61,19 @@ test("LG-004 Login Test Failed - ปล่อยให้ช่องว่า�
   await page.waitForTimeout(3000);
 });
 
+// test("LG-005 Login Testการเข้าสู่ระบบผ่านบัญชี Google", async ({
+//   page,
+// }) => {
+//   await page.goto("https://t-check-two.vercel.app/");
+//   await page.getByRole("link", { name: "ลงชื่อเข้าใช้" }).click();
+// });
 
-test("LG-005 Login Test  - ตรวจสอบลิงก์ สมัครสมาชิกในหน้าล็อกอิน", async ({
+test("LG-006 Login Test-ตรวจสอบลิงก์ ลืมรหัสผ่าน ในหน้าล็อกอิน", async ({
+  page,
+}) => {
+});
+
+test("LG-007 Login Test-ตรวจสอบลิงก์ สมัครสมาชิกในหน้าล็อกอิน", async ({
   page,
 }) => {
   await page.goto("https://t-check-two.vercel.app/");
@@ -88,6 +82,18 @@ test("LG-005 Login Test  - ตรวจสอบลิงก์ สมัคร�
   await page.waitForTimeout(3000);
 });
 
+test("LG-008 Login Test-ตรวจสอบการทำงานของไอคอนเปิด/ปิดตาแสดงรหัสผ่าน ", async ({page}) => {
+  await page.goto('https://t-check-two.vercel.app/');
+  await page.getByRole('link', { name: 'ลงชื่อเข้าใช้' }).click();
+  await page.getByRole('textbox', { name: 'ชื่อผู้ใช้ หรือ อีเมล' }).click();
+  await page.getByRole('textbox', { name: 'ชื่อผู้ใช้ หรือ อีเมล' }).fill('Test99');
+  await page.getByRole('textbox', { name: 'รหัสผ่าน' }).click();
+  await page.getByRole('textbox', { name: 'รหัสผ่าน' }).fill('Test99');
+  await page.getByRole('button', { name: 'Show password' }).click();
+  await page.getByRole('button', { name: 'Hide password' }).click();
+  await page.getByRole('button', { name: 'Show password' }).click();
+  await expect(page.getByRole('textbox', { name: 'รหัสผ่าน' })).toHaveValue('Test99');
+})
 
 
 
