@@ -18,4 +18,5 @@ test('Test Payment Process', async ({ page }) => {
   await expect(page.getByRole('main')).toContainText('กำลังรอการชำระเงิน...');
   await expect(page.getByRole('main')).toContainText('ยอดชำระรวม289 บาท');
   await expect(page.getByRole('main')).toContainText('T-Check Proราย 30 วัน289 บาท');
+  await page.waitForTimeout(6000);
 });
