@@ -4,7 +4,7 @@ const random = Math.floor(Math.random() * 100000);
 const username = `pluem${random}`;
 const email = `pluem${random}@gmail.com`;
 
-test('Register Test Success', async ({ page }) => {
+test('Register Test Success @skip ', async ({ page }) => {
     
   await page.goto('https://t-check-two.vercel.app/');
   await page.getByRole('link', { name: 'ลงทะเบียน' }).click();

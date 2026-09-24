@@ -22,25 +22,20 @@ test('DOC-001-การสร้างเอกสารใหม่ผ่าน
 });
 
 test('DOC-002-การสร้างเอกสารใหม่จากป๊อปอัป Modal จัดการเอกสาร', async ({ page }) => {
-  await page.goto('https://t-check-two.vercel.app/');
-   await page.getByRole('link', { name: 'ลงชื่อเข้าใช้' }).click();
-  await page.getByRole('textbox', { name: 'ชื่อผู้ใช้ หรือ อีเมล' }).click({
-    modifiers: ['ControlOrMeta']
-  });
-  await page.getByRole('textbox', { name: 'ชื่อผู้ใช้ หรือ อีเมล' }).fill('TestPP99');
-  await page.getByRole('textbox', { name: 'รหัสผ่าน' }).click({
-    modifiers: ['ControlOrMeta']
-  });
-  await page.getByRole('textbox', { name: 'รหัสผ่าน' }).fill('TestPP99');
-  await page.getByText('ชื่อผู้ใช้ หรือ อีเมลรหัสผ่านลืมรหัสผ่านเข้าสู่ระบบหรือเข้าสู่ระบบด้วย').click();
+   await page.goto('https://t-check-two.vercel.app/');
+  await page.getByRole('link', { name: 'ลงชื่อเข้าใช้' }).click();
+  await page.getByRole('textbox', { name: 'ชื่อผู้ใช้ หรือ อีเมล' }).click();
+  await page.getByRole('textbox', { name: 'ชื่อผู้ใช้ หรือ อีเมล' }).fill('CustomerB');
+  await page.getByRole('textbox', { name: 'รหัสผ่าน' }).click();
+  await page.getByRole('textbox', { name: 'รหัสผ่าน' }).fill('CostomerBB');
   await page.getByRole('button', { name: 'เข้าสู่ระบบ' }).click();
   await page.getByRole('button', { name: 'ตกลง' }).click();
   await page.getByRole('link', { name: 'จัดการเอกสาร' }).click();
-  await page.getByText('มาเริ่มต้นลองPlaywrightแก้ไขล่าสุด: 2 เดือนที่แล้ววันที่: 19/06/').click();
-  await expect(page.locator('.flex-1.p-4')).toBeVisible();
-  await page.getByRole('link', { name: 'จัดการเอกสาร' }).click();
   await page.getByRole('button', { name: 'สร้างเอกสารใหม่' }).click();
-  await expect(page.locator('div').filter({ hasText: /^เริ่มพิมพ์เพื่อสร้างเอกสารหรือนำเข้าไฟล์จาก Toolbar ด้านบน$/ }).first()).toBeVisible();
+  await expect(page.getByRole('button').nth(5)).toBeVisible();
+  await page.getByRole('button').nth(5).click();
+  await expect(page.locator('h2')).toContainText('จัดการเอกสาร');
+  await expect(page.getByRole('button', { name: 'สร้างเอกสารใหม่' })).toBeVisible();
 
    await page.waitForTimeout(3000);
 });
@@ -48,23 +43,17 @@ test('DOC-002-การสร้างเอกสารใหม่จากป
 test('DOC-003-การค้นหาเอกสาร', async ({ page }) => {
   await page.goto('https://t-check-two.vercel.app/');
   await page.getByRole('link', { name: 'ลงชื่อเข้าใช้' }).click();
-  await page.getByRole('textbox', { name: 'ชื่อผู้ใช้ หรือ อีเมล' }).click({
-    modifiers: ['ControlOrMeta']
-  });
-  await page.getByRole('textbox', { name: 'ชื่อผู้ใช้ หรือ อีเมล' }).fill('TestPP99');
-  await page.getByRole('textbox', { name: 'รหัสผ่าน' }).click({
-    modifiers: ['ControlOrMeta']
-  });
-  await page.getByRole('textbox', { name: 'รหัสผ่าน' }).fill('TestPP99');
-  await page.getByText('ชื่อผู้ใช้ หรือ อีเมลรหัสผ่านลืมรหัสผ่านเข้าสู่ระบบหรือเข้าสู่ระบบด้วย').click();
+  await page.getByRole('textbox', { name: 'ชื่อผู้ใช้ หรือ อีเมล' }).click();
+  await page.getByRole('textbox', { name: 'ชื่อผู้ใช้ หรือ อีเมล' }).fill('CustomerB');
+  await page.getByRole('textbox', { name: 'รหัสผ่าน' }).click();
+  await page.getByRole('textbox', { name: 'รหัสผ่าน' }).fill('CostomerBB');
   await page.getByRole('button', { name: 'เข้าสู่ระบบ' }).click();
   await page.getByRole('button', { name: 'ตกลง' }).click();
-  await page.getByRole('button', { name: 'แดชบอร์ด' }).click();
-  await page.getByRole('link', { name: 'จัดการเอกสาร', exact: true }).click();
+  await page.getByRole('link', { name: 'จัดการเอกสาร' }).click();
   await page.getByRole('textbox', { name: 'ค้นหาเอกสาร' }).click();
-  await page.getByRole('textbox', { name: 'ค้นหาเอกสาร' }).fill('มาเริ่มต้นลอง');
-  await page.locator('.lucide.lucide-search').click();
-  await expect(page.locator('h4')).toContainText('มาเริ่มต้นลองPlaywright');
+  await page.getByRole('textbox', { name: 'ค้นหาเอกสาร' }).fill('15จุด');
+  await expect(page.locator('h4')).toContainText('15จุด');
+  await expect(page.getByText('15จุดแก้ไขล่าสุด: 6')).toBeVisible();
   await page.waitForTimeout(3000);
 });
 
@@ -93,22 +82,22 @@ test('DOC-004-การลบเอกสารออกจากระบบผ
   await expect(page.locator('h3')).toContainText('ถังขยะว่างเปล่า');
 });
 
-test('DOC-005-การจัดเรียงรายการเอกสาร (Sort Filter)', async ({ page }) => {
-  await page.goto('https://t-check-two.vercel.app/');
+test('DOC-005-การจัดเรียงรายการเอกสาร ', async ({ page }) => {
+   await page.goto('https://t-check-two.vercel.app/');
   await page.getByRole('link', { name: 'ลงชื่อเข้าใช้' }).click();
   await page.getByRole('textbox', { name: 'ชื่อผู้ใช้ หรือ อีเมล' }).click();
-  await page.getByRole('textbox', { name: 'ชื่อผู้ใช้ หรือ อีเมล' }).fill('TestPP99');
+  await page.getByRole('textbox', { name: 'ชื่อผู้ใช้ หรือ อีเมล' }).fill('CustomerB');
   await page.getByRole('textbox', { name: 'รหัสผ่าน' }).click();
-  await page.getByRole('textbox', { name: 'รหัสผ่าน' }).fill('TestPP99');
+  await page.getByRole('textbox', { name: 'รหัสผ่าน' }).fill('CostomerBB');
   await page.getByRole('button', { name: 'เข้าสู่ระบบ' }).click();
   await page.getByRole('button', { name: 'ตกลง' }).click();
   await page.getByRole('link', { name: 'จัดการเอกสาร' }).click();
-  await page.getByRole('button', { name: 'เรียงลำดับตาม' }).click();
-  await page.getByRole('option', { name: 'เรียงลำดับตามวันที่แก้ไขล่าสุด' }).click();
-  await page.getByRole('button', { name: 'เรียงลำดับตาม' }).click();
-  await page.getByRole('option', { name: 'เรียงลำดับตามชื่อเอกสาร' }).click();
-  await page.getByRole('button', { name: 'เรียงลำดับตาม' }).click();
-  await page.getByRole('option', { name: 'เรียงลำดับตามวันที่สร้างเอกสาร' }).click();
+  await expect(page.getByText('ล่าสุดก่อน')).toBeVisible();
+  await page.getByText('ล่าสุดก่อน').click();
+  await page.getByRole('button', { name: 'อัปเดตเก่าสุด' }).click();
+  await page.getByRole('button', { name: 'ชื่อ (A-Z)' }).click();
+  await page.getByRole('button', { name: 'ชื่อ (Z-A)' }).click();
+  
   await page.waitForTimeout(3000);
 })
 

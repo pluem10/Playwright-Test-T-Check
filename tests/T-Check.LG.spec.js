@@ -68,9 +68,24 @@ test("LG-004 Login Test Failed - ปล่อยให้ช่องว่า�
 //   await page.getByRole("link", { name: "ลงชื่อเข้าใช้" }).click();
 // });
 
-test("LG-006 Login Test-ตรวจสอบลิงก์ ลืมรหัสผ่าน ในหน้าล็อกอิน", async ({
-  page,
-}) => {
+test("LG-006 Login Test-ตรวจสอบลิงก์ ลืมรหัสผ่าน ในหน้าล็อกอิน", async ({page,}) => {
+  await page.goto('https://t-check-two.vercel.app/');
+  await page.getByRole('link', { name: 'ลงชื่อเข้าใช้' }).click();
+  await page.getByRole('textbox', { name: 'ชื่อผู้ใช้ หรือ อีเมล' }).click();
+  await page.getByRole('textbox', { name: 'ชื่อผู้ใช้ หรือ อีเมล' }).fill('TestP999');
+  await page.getByRole('textbox', { name: 'รหัสผ่าน' }).click();
+  await page.getByRole('textbox', { name: 'รหัสผ่าน' }).fill('TestP99');
+  await page.getByRole('button', { name: 'เข้าสู่ระบบ' }).click();
+  await page.getByRole('button', { name: 'ตกลง' }).click();
+  await page.getByRole('link', { name: 'ลืมรหัสผ่าน' }).click();
+  await page.getByRole('textbox', { name: 'อีเมล' }).click();
+  await page.getByRole('textbox', { name: 'อีเมล' }).click();
+  await page.getByRole('textbox', { name: 'อีเมล' }).fill('nitiphonsombat57@gmail.com');
+  await page.getByRole('button', { name: 'ตกลง' }).click();
+  await expect(page.locator('#swal2-title')).toContainText('ส่งลิงก์ตั้งรหัสผ่านใหม่เรียบร้อยแล้ว');
+  await expect(page.getByRole('heading', { name: 'ส่งลิงก์ตั้งรหัสผ่านใหม่เรียบร้อยแล้ว' })).toBeVisible();
+  await page.getByRole('button', { name: 'ตกลง' }).click();
+  await page.waitForTimeout(3000);
 });
 
 test("LG-007 Login Test-ตรวจสอบลิงก์ สมัครสมาชิกในหน้าล็อกอิน", async ({
