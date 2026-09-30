@@ -95,14 +95,15 @@
 
   ```
   npx playwright test --ui
-  
+  npx playwright test
+  npx playwright test -g ""
   ```
 
 * **บันทึกการใช้งานเพื่อสร้างโค้ดอัตโนมัติ (Codegen):**
   เครื่องมือนี้จะเปิดหน้าต่างเบราว์เซอร์ขึ้นมา เมื่อคุณคลิกอะไรบนหน้าเว็บ ระบบจะเขียนโค้ด Playwright ให้โดยอัตโนมัติ
 
   ```
-  npx playwright codegen <URL ของเว็บไซต์คุณ>
+  npx playwright codegen https://t-check-two.vercel.app/
   
   ```
 
