@@ -5,9 +5,9 @@ test('LG-001-Login Test success', async ({ page }) => {
   await page.getByRole('link', { name: 'ลงชื่อเข้าใช้' }).click();
   await page.getByRole('textbox', { name: 'ชื่อผู้ใช้ หรือ อีเมล' }).click();
   await page.getByRole('textbox', { name: 'ชื่อผู้ใช้ หรือ อีเมล' }).click();
-  await page.getByRole('textbox', { name: 'ชื่อผู้ใช้ หรือ อีเมล' }).fill('TestPP99');
+  await page.getByRole('textbox', { name: 'ชื่อผู้ใช้ หรือ อีเมล' }).fill('UserBasic67');
   await page.getByRole('textbox', { name: 'รหัสผ่าน' }).click();
-  await page.getByRole('textbox', { name: 'รหัสผ่าน' }).fill('TestPP99');
+  await page.getByRole('textbox', { name: 'รหัสผ่าน' }).fill('UserBasic67');
    await page.getByRole('button', { name: 'เข้าสู่ระบบ' }).click();
   await expect(page.locator('#swal2-title')).toContainText('เข้าสู่ระบบสำเร็จ');
   await page.waitForTimeout(3000);
@@ -18,9 +18,9 @@ test('LG-002-Login Test Failed - กรอกรหัสผ่านผิด',
   await page.getByRole('link', { name: 'ลงชื่อเข้าใช้' }).click();
   await page.getByRole('textbox', { name: 'ชื่อผู้ใช้ หรือ อีเมล' }).click();
   await page.getByRole('textbox', { name: 'ชื่อผู้ใช้ หรือ อีเมล' }).click();
-  await page.getByRole('textbox', { name: 'ชื่อผู้ใช้ หรือ อีเมล' }).fill('TestPPP99');
+  await page.getByRole('textbox', { name: 'ชื่อผู้ใช้ หรือ อีเมล' }).fill('UserBasic67');
   await page.getByRole('textbox', { name: 'รหัสผ่าน' }).click();
-  await page.getByRole('textbox', { name: 'รหัสผ่าน' }).fill('TestPPP9');
+  await page.getByRole('textbox', { name: 'รหัสผ่าน' }).fill('WrongPassword');
    await page.getByRole('button', { name: 'เข้าสู่ระบบ' }).click();
   await expect(page.locator('#swal2-title')).toContainText('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
   await page.waitForTimeout(6000);
