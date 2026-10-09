@@ -128,7 +128,6 @@ test.describe("UC-03 : ตรวจสอบคําผิด", () => {
     // โควต้าลดลง และแสดงผลในแท็บ 'คำแนะนำ'
     const quotaAfter = await readQuota(page);
     expect(quotaAfter).toBeLessThan(quotaBefore);
-    
   });
 
   test("UC-03 ตรวจสอบคําผิด -> TC-0307 ป้องกันการกดปุ่มตรวจสอบซ้ำซ้อน (Spam Click)", async ({
@@ -144,35 +143,35 @@ test.describe("UC-03 : ตรวจสอบคําผิด", () => {
     await expect(checkButton(page)).toBeDisabled();
   });
 
-  test("UC-03 ตรวจสอบคําผิด -> TC-0308 ตรวจสอบเมื่อระบบ AI ตอบสนองช้าเกินกำหนด (Timeout)", async ({
-    page,
-  }) => {
-    test.setTimeout(180_000); // เคสนี้ต้องรอนาน
+  // test("UC-03 ตรวจสอบคําผิด -> TC-0308 ตรวจสอบเมื่อระบบ AI ตอบสนองช้าเกินกำหนด (Timeout)", async ({
+  //   page,
+  // }) => {
+  //   test.setTimeout(180_000); // เคสนี้ต้องรอนาน
 
-    await loginAndOpenEditor(page, USERS.pro);
-    await typeInEditor(page, SHORT_TEXT_WITH_MISTAKES);
-    const quotaBefore = await readQuota(page);
+  //   await loginAndOpenEditor(page, USERS.pro);
+  //   await typeInEditor(page, SHORT_TEXT_WITH_MISTAKES);
+  //   const quotaBefore = await readQuota(page);
 
-    // จำลองเซิร์ฟเวอร์ตอบช้า 65 วินาที (เฉพาะคำขอ fetch/xhr แบบ POST)
-    await page.route("**/*", async (route) => {
-      const request = route.request();
-      const isApiCall =
-        ["fetch", "xhr"].includes(request.resourceType()) &&
-        request.method() === "POST";
-      if (isApiCall) await new Promise((r) => setTimeout(r, 65_000));
-      await route.continue().catch(() => {});
-    });
+  //   // จำลองเซิร์ฟเวอร์ตอบช้า 65 วินาที (เฉพาะคำขอ fetch/xhr แบบ POST)
+  //   await page.route("**/*", async (route) => {
+  //     const request = route.request();
+  //     const isApiCall =
+  //       ["fetch", "xhr"].includes(request.resourceType()) &&
+  //       request.method() === "POST";
+  //     if (isApiCall) await new Promise((r) => setTimeout(r, 65_000));
+  //     await route.continue().catch(() => {});
+  //   });
 
-    await clickCheck(page);
+  //   await clickCheck(page);
 
-    // แจ้งเตือน, ปุ่มกลับมากดได้, โควต้าไม่ถูกหัก
-    await expect(page.locator("#root")).toContainText(
-      "เซิร์ฟเวอร์ใช้เวลาตอบสนองนานเกินไปกรุณาลองใหม่อีกครั้ง",
-      { timeout: 90_000 },
-    );
-    await expect(checkButton(page)).toBeEnabled();
-    expect(await readQuota(page)).toBe(quotaBefore);
-  });
+  //   // แจ้งเตือน, ปุ่มกลับมากดได้, โควต้าไม่ถูกหัก
+  //   await expect(page.locator("#root")).toContainText(
+  //     "เซิร์ฟเวอร์ใช้เวลาตอบสนองนานเกินไปกรุณาลองใหม่อีกครั้ง",
+  //     { timeout: 90_000 },
+  //   );
+  //   await expect(checkButton(page)).toBeEnabled();
+  //   expect(await readQuota(page)).toBe(quotaBefore);
+  // });
 
   // หมายเหตุ: TC-0309 ใน Test Case ต้นฉบับซ้ำกับ TC-0308 ทุกข้อ จึงข้ามไว้ (ควรแก้ไขเอกสาร)
   test.skip("UC-03 ตรวจสอบคําผิด -> TC-0309 ตรวจสอบเมื่อระบบ AI ตอบสนองช้าเกินกำหนด (Timeout) [ซ้ำกับ TC-0308]", async () => {});

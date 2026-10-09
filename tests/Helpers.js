@@ -124,9 +124,11 @@ export async function loginAndOpenEditor(page, user) {
 // เข้าใช้งานแบบผู้เยี่ยมชม (Guest) ผ่านปุ่ม 'เริ่มต้นใช้งาน' ในหน้าแรก (ฟรี ไม่ต้องสมัครสมาชิก)
 export async function openEditorAsGuest(page) {
   await page.goto(BASE_URL);
-  await page.getByRole("button", { name: /เริ่มต้นใช้งาน/ }).or(
-    page.getByRole("link", { name: /เริ่มต้นใช้งาน/ }),
-  ).first().click();
+  await page
+    .getByRole("button", { name: /เริ่มต้นใช้งาน/ })
+    .or(page.getByRole("link", { name: /เริ่มต้นใช้งาน/ }))
+    .first()
+    .click();
 }
 
 export async function typeInEditor(page, text) {
@@ -147,7 +149,10 @@ export async function clickCheck(page) {
 //  โควต้า (แถบ 'โควต้าของคุณ' รูปแบบ 4,000 / 4,000)
 // =====================================================
 export async function readQuota(page) {
-  const text = await page.getByText(/[\d,]+\s+\/\s+[\d,]+/).first().innerText();
+  const text = await page
+    .getByText(/[\d,]+\s+\/\s+[\d,]+/)
+    .first()
+    .innerText();
   const remaining = text.match(/[\d,]+/)[0];
   return Number(remaining.replace(/,/g, ""));
 }

@@ -1,9 +1,5 @@
 import { test, expect } from "@playwright/test";
-import {
-  BASE_URL,
-  getEyeIcon,
-  expectGoogleLoginOpened,
-} from "./Helpers";
+import { BASE_URL, getEyeIcon, expectGoogleLoginOpened } from "./Helpers";
 
 // ---------- ฟังก์ชันช่วยเฉพาะหน้าสมัครสมาชิก ----------
 async function openRegisterPage(page) {
@@ -13,7 +9,8 @@ async function openRegisterPage(page) {
   await page.waitForURL(/sign-up/);
 }
 
-const usernameInput = (page) => page.getByRole("textbox", { name: "ชื่อผู้ใช้" });
+const usernameInput = (page) =>
+  page.getByRole("textbox", { name: "ชื่อผู้ใช้" });
 const emailInput = (page) => page.getByRole("textbox", { name: "อีเมล" });
 const passwordInput = (page) =>
   page.getByRole("textbox", { name: "รหัสผ่าน", exact: true });
@@ -38,22 +35,23 @@ test.describe("UC-02 : สมัครสมาชิก (Register)", () => {
     await openRegisterPage(page);
   });
 
-  test("UC-02 สมัครสมาชิก -> TC-0201 ตรวจสอบการสมัครสมาชิกใหม่สำเร็จด้วยข้อมูลที่ถูกต้องสมบูรณ์", async ({
-    page,
-  }) => {
-    // ใช้ชื่อไม่ซ้ำทุกครั้งที่รัน (ถ้าใช้ Tcheck2026 ซ้ำ รอบที่ 2 จะสมัครไม่ผ่าน)
-    const unique = Date.now();
-    const password = "Tcheck2026";
-    await fillRegisterForm(page, {
-      username: `Tcheck${unique}`,
-      email: `Tcheck${unique}@gmail.com`,
-      password,
-      confirm: password,
-    });
-    await clickRegisterButton(page);
+  // ตรวจสอบการสมัครสมาชิกใหม่สำเร็จด้วยข้อมูลที่ถูกต้องสมบูรณ์ (ทดสอบด้วยมือเพราะต้องกรอก รหัส 6หลัก )
+  // test("UC-02 สมัครสมาชิก -> TC-0201 ตรวจสอบการสมัครสมาชิกใหม่สำเร็จด้วยข้อมูลที่ถูกต้องสมบูรณ์", async ({
+  //   page,
+  // }) => {
+  //   // ใช้ชื่อไม่ซ้ำทุกครั้งที่รัน (ถ้าใช้ Tcheck2026 ซ้ำ รอบที่ 2 จะสมัครไม่ผ่าน)
+  //   const unique = Date.now();
+  //   const password = "Tcheck2026";
+  //   await fillRegisterForm(page, {
+  //     username: `Tcheck${unique}`,
+  //     email: `Tcheck${unique}@gmail.com`,
+  //     password,
+  //     confirm: password,
+  //   });
+  //   await clickRegisterButton(page);
 
-    await expect(page.locator("#root")).toContainText("สมัครสมาชิกสำเร็จ");
-  });
+  //   await expect(page.locator("#root")).toContainText("สมัครสมาชิกสำเร็จ");
+  // });
 
   test("UC-02 สมัครสมาชิก -> TC-0202 ตรวจสอบกรณี Password และ Confirm Password ไม่ตรงกัน", async ({
     page,
@@ -73,18 +71,26 @@ test.describe("UC-02 : สมัครสมาชิก (Register)", () => {
   test("UC-02 สมัครสมาชิก -> TC-0203 ตรวจสอบกรณี Email ซ้ำกับที่มีในระบบแล้ว", async ({
     page,
   }) => {
-   await page.goto('https://t-check-two.vercel.app/');
-  await page.getByRole('link', { name: 'ลงทะเบียน' }).click();
-  await page.getByRole('textbox', { name: 'ชื่อผู้ใช้' }).click();
-  await page.getByRole('textbox', { name: 'ชื่อผู้ใช้' }).fill('Kakachi099');
-  await page.getByRole('textbox', { name: 'ชื่อผู้ใช้' }).press('Tab');
-  await page.getByRole('textbox', { name: 'อีเมล' }).fill('664259010@webmail.npru.ac.th');
-  await page.getByRole('textbox', { name: 'รหัสผ่าน', exact: true }).click();
-  await page.getByRole('textbox', { name: 'รหัสผ่าน', exact: true }).fill('kakachi00');
-  await page.getByRole('textbox', { name: 'ยืนยันรหัสผ่าน' }).click();
-  await page.getByRole('textbox', { name: 'ยืนยันรหัสผ่าน' }).fill('kakachi00');
-  await page.getByRole('button', { name: 'สมัครสมาชิก' }).click();
-  await expect(page.locator('#swal2-html-container')).toContainText('ข้อมูลนี้มีอยู่ในระบบแล้ว (เช่น อีเมลหรือชื่อเข้าใช้) กรุณาใช้ข้อมูลอื่น');
+    await page.goto("https://t-check-two.vercel.app/");
+    await page.getByRole("link", { name: "ลงทะเบียน" }).click();
+    await page.getByRole("textbox", { name: "ชื่อผู้ใช้" }).click();
+    await page.getByRole("textbox", { name: "ชื่อผู้ใช้" }).fill("Kakachi099");
+    await page.getByRole("textbox", { name: "ชื่อผู้ใช้" }).press("Tab");
+    await page
+      .getByRole("textbox", { name: "อีเมล" })
+      .fill("664259010@webmail.npru.ac.th");
+    await page.getByRole("textbox", { name: "รหัสผ่าน", exact: true }).click();
+    await page
+      .getByRole("textbox", { name: "รหัสผ่าน", exact: true })
+      .fill("kakachi00");
+    await page.getByRole("textbox", { name: "ยืนยันรหัสผ่าน" }).click();
+    await page
+      .getByRole("textbox", { name: "ยืนยันรหัสผ่าน" })
+      .fill("kakachi00");
+    await page.getByRole("button", { name: "สมัครสมาชิก" }).click();
+    await expect(page.locator("#swal2-html-container")).toContainText(
+      "ข้อมูลนี้มีอยู่ในระบบแล้ว (เช่น อีเมลหรือชื่อเข้าใช้) กรุณาใช้ข้อมูลอื่น",
+    );
   });
 
   test("UC-02 สมัครสมาชิก -> TC-0204 ตรวจสอบกรณีรูปแบบอีเมลไม่ถูกต้อง", async ({
@@ -113,7 +119,9 @@ test.describe("UC-02 : สมัครสมาชิก (Register)", () => {
     await clickRegisterButton(page);
 
     // ใช้ regex รองรับทั้ง "เเ" (เ+เ) และ "แ" ในคำว่า "อยู่แล้ว"
-    await expect(page.getByRole('dialog', { name: 'สมัครสมาชิกล้มเหลว' })).toBeVisible();
+    await expect(
+      page.getByRole("dialog", { name: "สมัครสมาชิกล้มเหลว" }),
+    ).toBeVisible();
   });
 
   test("UC-02 สมัครสมาชิก -> TC-0206 ตรวจสอบการปล่อยว่างข้อมูลบังคับ", async ({
@@ -146,23 +154,32 @@ test.describe("UC-02 : สมัครสมาชิก (Register)", () => {
   test("UC-02 สมัครสมาชิก -> TC-0208 ตรวจสอบปุ่มแสดง/ซ่อนรหัสผ่านทั้งสองช่อง", async ({
     page,
   }) => {
-  await page.goto('https://t-check-two.vercel.app/');
-  await page.getByRole('link', { name: 'ลงทะเบียน' }).click();
-  await page.getByRole('textbox', { name: 'รหัสผ่าน', exact: true }).click();
-  await page.getByRole('textbox', { name: 'รหัสผ่าน', exact: true }).fill('testtest');
-  await page.getByRole('textbox', { name: 'ยืนยันรหัสผ่าน' }).click();
-  await page.getByRole('textbox', { name: 'ยืนยันรหัสผ่าน' }).fill('testtest');
-  await page.getByRole('button', { name: 'Show password' }).first().click();
-  await page.getByRole('button', { name: 'Show password' }).click();
-  await page.getByRole('button', { name: 'Hide password' }).first().click();
-  await page.getByRole('button', { name: 'Hide password' }).click();
+    await page.goto("https://t-check-two.vercel.app/");
+    await page.getByRole("link", { name: "ลงทะเบียน" }).click();
+    await page.getByRole("textbox", { name: "รหัสผ่าน", exact: true }).click();
+    await page
+      .getByRole("textbox", { name: "รหัสผ่าน", exact: true })
+      .fill("testtest");
+    await page.getByRole("textbox", { name: "ยืนยันรหัสผ่าน" }).click();
+    await page
+      .getByRole("textbox", { name: "ยืนยันรหัสผ่าน" })
+      .fill("testtest");
+    await page.getByRole("button", { name: "Show password" }).first().click();
+    await page.getByRole("button", { name: "Show password" }).click();
+    await page.getByRole("button", { name: "Hide password" }).first().click();
+    await page.getByRole("button", { name: "Hide password" }).click();
   });
 
   test("UC-02 สมัครสมาชิก -> TC-0209 ตรวจสอบปุ่ม 'สมัครสมาชิกด้วย Google'", async ({
     page,
   }) => {
-  await page.goto('https://t-check-two.vercel.app/');
-   await page.getByRole('link', { name: 'ลงทะเบียน' }).click();
-  await expect(page.locator('iframe[title="ปุ่มลงชื่อเข้าใช้ด้วย Google"]').contentFrame().getByRole('button', { name: 'ลงชื่อสมัครใช้ด้วย Google' })).toBeVisible();
+    await page.goto("https://t-check-two.vercel.app/");
+    await page.getByRole("link", { name: "ลงทะเบียน" }).click();
+    await expect(
+      page
+        .locator('iframe[title="ปุ่มลงชื่อเข้าใช้ด้วย Google"]')
+        .contentFrame()
+        .getByRole("button", { name: "ลงชื่อสมัครใช้ด้วย Google" }),
+    ).toBeVisible();
   });
 });

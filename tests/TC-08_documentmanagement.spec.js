@@ -11,7 +11,10 @@ const DEFAULT_TITLE = "เอกสารไม่มีชื่อ";
 
 // การ์ดเอกสาร = ตัวครอบที่ใกล้ที่สุดของชื่อเอกสารที่มีปุ่มอยู่ข้างใน
 const firstDocumentCard = (page) =>
-  page.getByText(DEFAULT_TITLE).first().locator("xpath=ancestor::*[.//button][1]");
+  page
+    .getByText(DEFAULT_TITLE)
+    .first()
+    .locator("xpath=ancestor::*[.//button][1]");
 
 test.describe("UC-08 : จัดการเอกสาร", () => {
   test("UC-08 จัดการเอกสาร -> TC-0801 ตรวจสอบการลบเอกสารลงถังขยะ (Soft Delete) และยืนยันการลบ", async ({
@@ -43,9 +46,10 @@ test.describe("UC-08 : จัดการเอกสาร", () => {
 
     await page.getByPlaceholder("ค้นหาเอกสาร").fill("Unknown_Doc_999");
 
-    await expect(page.locator("#root")).toContainText(
-      "ไม่พบเอกสารที่ตรงกับคำค้นหา",
+    await expect(page.locator("h3")).toContainText(
+      'ไม่พบเอกสารที่ตรงกับ "Unknown_Doc_999"',
     );
+    await page.waitForTimeout(3000);
   });
 
   test("UC-08 จัดการเอกสาร -> TC-0803 ตรวจสอบการบันทึกเอกสารใหม่โดยไม่ได้ระบุชื่อเอกสาร", async ({
